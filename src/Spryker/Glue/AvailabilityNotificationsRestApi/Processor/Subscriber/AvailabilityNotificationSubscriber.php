@@ -32,11 +32,6 @@ class AvailabilityNotificationSubscriber implements AvailabilityNotificationSubs
      */
     protected $availabilityNotificationsRestResponseBuilder;
 
-    /**
-     * @param \Spryker\Glue\AvailabilityNotificationsRestApi\Dependency\Client\AvailabilityNotificationsRestApiToAvailabilityNotificationClientInterface $availabilityNotificationClient
-     * @param \Spryker\Glue\AvailabilityNotificationsRestApi\Dependency\Client\AvailabilityNotificationsRestApiToStoreClientInterface $storeClient
-     * @param \Spryker\Glue\AvailabilityNotificationsRestApi\Processor\RestResponseBuilder\AvailabilityNotificationsRestResponseBuilderInterface $availabilityNotificationsRestResponseBuilder
-     */
     public function __construct(
         AvailabilityNotificationsRestApiToAvailabilityNotificationClientInterface $availabilityNotificationClient,
         AvailabilityNotificationsRestApiToStoreClientInterface $storeClient,
@@ -84,11 +79,6 @@ class AvailabilityNotificationSubscriber implements AvailabilityNotificationSubs
         return $this->availabilityNotificationsRestResponseBuilder->createAvailabilityNotificationResponse($availabilityNotificationSubscriptionResponseTransfer->getAvailabilityNotificationSubscriptionOrFail());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function unsubscribeBySubscriptionKey(RestRequestInterface $restRequest): RestResponseInterface
     {
         $availabilityNotificationSubscriptionResponseTransfer = $this->availabilityNotificationClient->unsubscribeBySubscriptionKey((new AvailabilityNotificationSubscriptionTransfer())->setSubscriptionKey($restRequest->getResource()->getId()));

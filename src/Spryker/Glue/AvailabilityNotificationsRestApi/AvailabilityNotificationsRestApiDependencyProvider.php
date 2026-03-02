@@ -27,11 +27,6 @@ class AvailabilityNotificationsRestApiDependencyProvider extends AbstractBundleD
      */
     public const CLIENT_STORE = 'CLIENT_STORE';
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     public function provideDependencies(Container $container): Container
     {
         $container = parent::provideDependencies($container);
@@ -41,11 +36,6 @@ class AvailabilityNotificationsRestApiDependencyProvider extends AbstractBundleD
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addAvailabilityNotificationClient(Container $container): Container
     {
         $container->set(static::CLIENT_AVAILABILITY_NOTIFICATION, function (Container $container) {
@@ -57,11 +47,6 @@ class AvailabilityNotificationsRestApiDependencyProvider extends AbstractBundleD
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addStoreClient(Container $container): Container
     {
         $container->set(static::CLIENT_STORE, function (Container $container) {

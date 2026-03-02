@@ -12,12 +12,6 @@ use Generated\Shared\Transfer\RestAvailabilityNotificationsAttributesTransfer;
 
 class AvailabilityNotificationMapper implements AvailabilityNotificationMapperInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\AvailabilityNotificationSubscriptionTransfer $availabilityNotificationSubscriptionTransfer
-     * @param \Generated\Shared\Transfer\RestAvailabilityNotificationsAttributesTransfer $restAvailabilityNotificationsAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestAvailabilityNotificationsAttributesTransfer
-     */
     public function mapAvailabilityNotificationSubscriptionTransferToRestAvailabilityNotificationsAttributesTransfer(
         AvailabilityNotificationSubscriptionTransfer $availabilityNotificationSubscriptionTransfer,
         RestAvailabilityNotificationsAttributesTransfer $restAvailabilityNotificationsAttributesTransfer

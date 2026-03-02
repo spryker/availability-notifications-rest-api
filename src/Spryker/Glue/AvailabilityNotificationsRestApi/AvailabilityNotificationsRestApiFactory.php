@@ -26,9 +26,6 @@ use Spryker\Glue\Kernel\AbstractFactory;
  */
 class AvailabilityNotificationsRestApiFactory extends AbstractFactory
 {
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Processor\Reader\AvailabilityNotificationReaderInterface
-     */
     public function createAvailabilityNotificationReader(): AvailabilityNotificationReaderInterface
     {
         return new AvailabilityNotificationReader(
@@ -39,9 +36,6 @@ class AvailabilityNotificationsRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Processor\Subscriber\AvailabilityNotificationSubscriberInterface
-     */
     public function createAvailabilityNotificationSubscriber(): AvailabilityNotificationSubscriberInterface
     {
         return new AvailabilityNotificationSubscriber(
@@ -51,25 +45,16 @@ class AvailabilityNotificationsRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Dependency\Client\AvailabilityNotificationsRestApiToAvailabilityNotificationClientInterface
-     */
     public function getAvailabilityNotificationClient(): AvailabilityNotificationsRestApiToAvailabilityNotificationClientInterface
     {
         return $this->getProvidedDependency(AvailabilityNotificationsRestApiDependencyProvider::CLIENT_AVAILABILITY_NOTIFICATION);
     }
 
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Dependency\Client\AvailabilityNotificationsRestApiToStoreClientInterface
-     */
     public function getStoreClient(): AvailabilityNotificationsRestApiToStoreClientInterface
     {
         return $this->getProvidedDependency(AvailabilityNotificationsRestApiDependencyProvider::CLIENT_STORE);
     }
 
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Processor\RestResponseBuilder\AvailabilityNotificationsRestResponseBuilderInterface
-     */
     public function createAvailabilityNotificationsRestResponseBuilder(): AvailabilityNotificationsRestResponseBuilderInterface
     {
         return new AvailabilityNotificationsRestResponseBuilder(
@@ -79,17 +64,11 @@ class AvailabilityNotificationsRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Processor\Mapper\AvailabilityNotificationMapperInterface
-     */
     public function createAvailabilityNotificationMapper(): AvailabilityNotificationMapperInterface
     {
         return new AvailabilityNotificationMapper();
     }
 
-    /**
-     * @return \Spryker\Glue\AvailabilityNotificationsRestApi\Processor\Validator\AvailabilityNotificationsRestApiValidatorInterface
-     */
     public function createAvailabilityNotificationsRestApiValidator(): AvailabilityNotificationsRestApiValidatorInterface
     {
         return new AvailabilityNotificationsRestApiValidator();
