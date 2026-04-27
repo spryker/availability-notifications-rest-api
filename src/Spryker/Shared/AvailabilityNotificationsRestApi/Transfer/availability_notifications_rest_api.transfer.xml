@@ -7,7 +7,7 @@
     </transfer>
 
     <transfer name="RestAvailabilityNotificationsAttributes">
-        <property name="localeName" type="string" description="The name of a locale, such as &quot;en_US&quot; or &quot;de_DE&quot;."/>
+        <property name="localeName" type="string" description="The name of a locale, such as 'en_US' or 'de_DE'."/>
         <property name="email" type="string" description="The email address of a user or contact."/>
         <property name="sku" type="string" description="The Stock Keeping Unit, a unique identifier for a concrete product."/>
     </transfer>
@@ -35,7 +35,7 @@
     </transfer>
 
     <transfer name="Locale">
-        <property name="localeName" type="string" description="The name of a locale, such as &quot;en_US&quot; or &quot;de_DE&quot;."/>
+        <property name="localeName" type="string" description="The name of a locale, such as 'en_US' or 'de_DE'."/>
     </transfer>
 
     <transfer name="RestUser">
