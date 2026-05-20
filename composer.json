@@ -15,9 +15,11 @@
         "spryker/transfer": "^3.42.0"
     },
     "require-dev": {
+        "spryker/api-platform": "*",
         "spryker/code-sniffer": "*"
     },
     "suggest": {
+        "spryker/api-platform": "Required to expose API Platform resources.",
         "spryker/authorization": "If you want to use multiple authorization strategies, minimum required version: 1.2.0."
     },
     "autoload": {

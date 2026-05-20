@@ -1,0 +1,154 @@
+resource:
+    name: AvailabilityNotifications
+    shortName: availability-notifications
+    description: 'Subscriptions for product availability notifications'
+
+    provider: Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Provider\AvailabilityNotificationsStorefrontProvider
+    processor: Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Processor\AvailabilityNotificationsStorefrontProcessor
+
+    paginationEnabled: true
+
+    uriVariables:
+        customerReference:
+            type: string
+            description: 'The unique customer reference identifier'
+            example: 'DE--123'
+        subscriptionKey:
+            type: string
+            description: 'The availability notification subscription key'
+            example: 'a89df00a-3f3c-5a3a-9b6d-1234567890ab'
+
+    operations:
+        - type: Post
+          uriTemplate: '/availability-notifications'
+          description: 'Subscribe to receive a notification by email when a product is back in stock'
+          openapiContext:
+              summary: 'Subscribe to availability notification'
+              description: 'Creates an availability notification subscription for the given email and product SKU.'
+              responses:
+                  201:
+                      description: 'Subscription created.'
+                  404:
+                      description: 'Product not found.'
+                  422:
+                      description: 'Subscription already exists or could not be created.'
+
+        - type: Delete
+          uriTemplate: '/availability-notifications/{subscriptionKey}'
+          uriVariables:
+              subscriptionKey:
+                  identifiers: [subscriptionKey]
+          read: false
+          description: 'Unsubscribe from an availability notification by subscription key'
+          openapiContext:
+              summary: 'Unsubscribe from availability notification'
+              description: 'Removes the availability notification subscription identified by the subscription key.'
+              responses:
+                  204:
+                      description: 'Unsubscribed successfully.'
+                  404:
+                      description: "Subscription doesn't exist."
+                  422:
+                      description: 'Failed to unsubscribe.'
+
+        - type: GetCollection
+          uriTemplate: '/customers/{customerReference}/availability-notifications'
+          uriVariables:
+              customerReference:
+                  identifiers: [customerReference]
+          security: "is_granted('ROLE_CUSTOMER') and is_granted('CUSTOMER_OWNER')"
+          description: 'Retrieve availability notification subscriptions for a customer'
+          openapiContext:
+              summary: 'List customer availability notification subscriptions'
+              description: 'Returns the availability notification subscriptions owned by the customer referenced in the URL. Requires ownership.'
+              responses:
+                  200:
+                      description: 'Subscription collection returned.'
+                  401:
+                      description: 'Missing or invalid access token.'
+                  403:
+                      description: 'Access denied — customer reference does not belong to the authenticated user.'
+
+        - type: GetCollection
+          name: getMyAvailabilityNotifications
+          uriTemplate: '/my-availability-notifications'
+          security: "is_granted('ROLE_CUSTOMER')"
+          description: 'Retrieve the authenticated customer availability notification subscriptions'
+          openapiContext:
+              summary: 'List my availability notification subscriptions'
+              description: 'Returns the availability notification subscriptions owned by the authenticated customer. JSON:API resource type is `availability-notifications` for BC.'
+              responses:
+                  200:
+                      description: 'Subscription collection returned.'
+                  401:
+                      description: 'Missing or invalid access token.'
+
+    includableIn:
+        - resource: Customers
+          relationshipName: availability-notifications
+          uriVariableMappings:
+              customerReference: customerReference
+
+    properties:
+        subscriptionKey:
+            type: string
+            identifier: true
+            writable: false
+            readable: true
+            required: false
+            description: 'Unique key identifying the availability notification subscription'
+            openapiContext:
+                example: 'a89df00a-3f3c-5a3a-9b6d-1234567890ab'
+
+        email:
+            type: string
+            writable: true
+            readable: true
+            required: true
+            description: 'Email address that receives the availability notification'
+            openapiContext:
+                example: 'spencor@spryker.com'
+
+        sku:
+            type: string
+            writable: true
+            readable: true
+            required: true
+            description: 'Stock Keeping Unit of the concrete product to subscribe to'
+            openapiContext:
+                example: '001_25904006'
+
+        localeName:
+            type: string
+            writable: false
+            readable: true
+            required: false
+            description: 'Locale name of the subscription (e.g. en_US, de_DE)'
+            openapiContext:
+                example: 'en_US'
+
+        pagination:
+            type: array
+            writable: false
+            readable: true
+            required: false
+            description: 'Pagination metadata for the collection. Populated only on the first item of a GET /customers/{customerReference}/availability-notifications response and consumed by PaginationLinksResponseSubscriber to emit JSON:API top-level pagination links.'
+            openapiContext:
+                properties:
+                    numFound:
+                        type: integer
+                        example: 42
+                    currentPage:
+                        type: integer
+                        example: 1
+                    maxPage:
+                        type: integer
+                        example: 5
+                    currentItemsPerPage:
+                        type: integer
+                        example: 10
+                example:
+                    numFound: 42
+                    currentPage: 1
+                    maxPage: 5
+                    currentItemsPerPage: 10

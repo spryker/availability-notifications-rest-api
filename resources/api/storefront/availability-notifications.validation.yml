@@ -1,0 +1,7 @@
+post:
+    sku:
+        - NotBlank: ~
+
+    email:
+        - NotBlank: ~
+        - Email: ~
