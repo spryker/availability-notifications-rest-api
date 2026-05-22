@@ -83,12 +83,6 @@ resource:
                   401:
                       description: 'Missing or invalid access token.'
 
-    includableIn:
-        - resource: Customers
-          relationshipName: availability-notifications
-          uriVariableMappings:
-              customerReference: customerReference
-
     properties:
         subscriptionKey:
             type: string
