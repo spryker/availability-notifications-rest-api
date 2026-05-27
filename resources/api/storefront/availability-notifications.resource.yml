@@ -6,6 +6,9 @@ resource:
     provider: Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Provider\AvailabilityNotificationsStorefrontProvider
     processor: Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Processor\AvailabilityNotificationsStorefrontProcessor
 
+    securityCode: '4606'
+    securityBearerAuthRequired: true
+
     paginationEnabled: true
 
     uriVariables:
