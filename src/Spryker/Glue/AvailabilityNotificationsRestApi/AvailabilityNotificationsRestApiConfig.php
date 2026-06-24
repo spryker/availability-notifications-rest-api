@@ -14,51 +14,71 @@ use Symfony\Component\HttpFoundation\Response;
 class AvailabilityNotificationsRestApiConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_AVAILABILITY_NOTIFICATIONS = 'availability-notifications';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_MY_AVAILABILITY_NOTIFICATIONS = 'my-availability-notifications';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_CUSTOMERS = 'customers';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_PRODUCT_NOT_FOUND = '4601';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_SUBSCRIPTION_ALREADY_EXISTS = '4602';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_SUBSCRIPTION_DOES_NOT_EXIST = '4603';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_FAILED_TO_SUBSCRIBE = '4604';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_FAILED_TO_UNSUBSCRIBE = '4605';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_CUSTOMER_UNAUTHORIZED = '4606';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Shared\AvailabilityNotification\AvailabilityNotificationConfig::MESSAGE_PRODUCT_NOT_FOUND
      *
      * @var string
@@ -66,6 +86,8 @@ class AvailabilityNotificationsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_DETAIL_PRODUCT_NOT_FOUND = 'Product not found.';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Shared\AvailabilityNotification\AvailabilityNotificationConfig::MESSAGE_SUBSCRIPTION_ALREADY_EXISTS
      *
      * @var string
@@ -73,6 +95,8 @@ class AvailabilityNotificationsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_DETAIL_SUBSCRIPTION_ALREADY_EXISTS = 'Subscription already exists.';
 
     /**
+     * @api
+     *
      * @uses \Spryker\Shared\AvailabilityNotification\AvailabilityNotificationConfig::MESSAGE_SUBSCRIPTION_DOES_NOT_EXIST
      *
      * @var string
@@ -80,16 +104,22 @@ class AvailabilityNotificationsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_DETAIL_SUBSCRIPTION_DOES_NOT_EXIST = 'Subscription doesn\'t exist.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAIL_FAILED_TO_SUBSCRIBE = 'Failed to subscribe.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAIL_FAILED_TO_UNSUBSCRIBE = 'Failed to unsubscribe.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAILS_CUSTOMER_UNAUTHORIZED = 'Unauthorized request.';
