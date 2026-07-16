@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Provider;
 
+use Generated\Api\Storefront\AvailabilityNotifications\AvailabilityNotificationsPaginationStorefrontObject;
 use Generated\Api\Storefront\AvailabilityNotificationsStorefrontResource;
 use Generated\Shared\Transfer\AvailabilityNotificationSubscriptionTransfer;
 use Spryker\ApiPlatform\State\Provider\AbstractStorefrontProvider;
@@ -53,7 +54,7 @@ class AvailabilityNotificationsStorefrontProvider extends AbstractStorefrontProv
             $totalCount = $collectionTransfer->getPagination()?->getNbResults() ?? count($resources);
             // Consumed by Spryker\ApiPlatform\EventSubscriber\PaginationLinksResponseSubscriber
             // to emit JSON:API top-level pagination links.
-            $resources[0]->pagination = $this->calculatePagination($offset, $limit, $totalCount);
+            $resources[0]->pagination = AvailabilityNotificationsPaginationStorefrontObject::fromArray($this->calculatePagination($offset, $limit, $totalCount));
         }
 
         return $resources;
