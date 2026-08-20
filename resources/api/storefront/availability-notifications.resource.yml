@@ -51,8 +51,6 @@ resource:
                       description: 'Unsubscribed successfully.'
                   404:
                       description: "Subscription doesn't exist."
-                  422:
-                      description: 'Failed to unsubscribe.'
 
         - type: GetCollection
           uriTemplate: '/customers/{customerReference}/availability-notifications'
@@ -68,9 +66,9 @@ resource:
                   200:
                       description: 'Subscription collection returned.'
                   401:
-                      description: 'Missing or invalid access token.'
+                      description: 'Invalid access token.'
                   403:
-                      description: 'Access denied — customer reference does not belong to the authenticated user.'
+                      description: 'Access denied: missing access token, or the customer reference belongs to another account.'
 
         - type: GetCollection
           name: getMyAvailabilityNotifications
@@ -84,7 +82,9 @@ resource:
                   200:
                       description: 'Subscription collection returned.'
                   401:
-                      description: 'Missing or invalid access token.'
+                      description: 'Invalid access token.'
+                  403:
+                      description: 'Access denied: missing access token.'
 
     properties:
         subscriptionKey:
