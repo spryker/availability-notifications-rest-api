@@ -43,6 +43,9 @@ resource:
                   identifiers: [subscriptionKey]
           read: false
           description: 'Unsubscribe from an availability notification by subscription key'
+          extraProperties:
+              notFoundCode: '4603'
+              notFoundMessage: "Subscription doesn't exist."
           openapiContext:
               summary: 'Unsubscribe from availability notification'
               description: 'Removes the availability notification subscription identified by the subscription key.'
