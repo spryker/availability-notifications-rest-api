@@ -24,17 +24,19 @@ resource:
     operations:
         - type: Post
           uriTemplate: '/availability-notifications'
+          output: false
+          status: 202
           description: 'Subscribe to receive a notification by email when a product is back in stock'
           openapiContext:
               summary: 'Subscribe to availability notification'
-              description: 'Creates an availability notification subscription for the given email and product SKU.'
+              description: 'Subscribes the given email to the product SKU. The answer is the same whether the email was already subscribed or not, and has no body: the subscription key is sent only in the confirmation email, and a repeated subscription sends no second email.'
               responses:
-                  201:
-                      description: 'Subscription created.'
+                  202:
+                      description: 'Subscription accepted. The confirmation email carries the subscription key.'
                   404:
                       description: 'Product not found.'
                   422:
-                      description: 'Subscription already exists or could not be created.'
+                      description: 'Validation failed or the subscription could not be created.'
 
         - type: Delete
           uriTemplate: '/availability-notifications/{subscriptionKey}'
@@ -96,7 +98,7 @@ resource:
             writable: false
             readable: true
             required: false
-            description: 'Unique key identifying the availability notification subscription'
+            description: 'Unique key identifying the availability notification subscription. Sent only in the confirmation email; POST never returns it.'
             openapiContext:
                 example: 'a89df00a-3f3c-5a3a-9b6d-1234567890ab'
 

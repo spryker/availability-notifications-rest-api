@@ -9,11 +9,12 @@ declare(strict_types=1);
 
 namespace Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Processor;
 
-use Generated\Api\Storefront\AvailabilityNotificationsStorefrontResource;
+use Generated\Shared\Transfer\AvailabilityNotificationSubscriptionResponseTransfer;
 use Generated\Shared\Transfer\AvailabilityNotificationSubscriptionTransfer;
 use Spryker\ApiPlatform\State\Processor\AbstractStorefrontProcessor;
 use Spryker\Client\AvailabilityNotification\AvailabilityNotificationClientInterface;
 use Spryker\Glue\AvailabilityNotificationsRestApi\Api\Storefront\Exception\AvailabilityNotificationsExceptionFactory;
+use Spryker\Glue\AvailabilityNotificationsRestApi\AvailabilityNotificationsRestApiConfig;
 
 class AvailabilityNotificationsStorefrontProcessor extends AbstractStorefrontProcessor
 {
@@ -26,11 +27,15 @@ class AvailabilityNotificationsStorefrontProcessor extends AbstractStorefrontPro
     }
 
     /**
+     * The endpoint needs no authentication, so a new and a repeated subscription get the same empty answer
+     * and the subscription key goes out only in the mail. Anything else would reveal which email
+     * addresses are subscribed, or hand out the key that unsubscribes them.
+     *
      * @param \Generated\Api\Storefront\AvailabilityNotificationsStorefrontResource $data
      *
      * @throws \Spryker\ApiPlatform\Exception\GlueApiException
      */
-    protected function processPost(mixed $data): AvailabilityNotificationsStorefrontResource
+    protected function processPost(mixed $data): mixed
     {
         $subscriptionTransfer = (new AvailabilityNotificationSubscriptionTransfer())
             ->setEmail($data->email)
@@ -41,18 +46,16 @@ class AvailabilityNotificationsStorefrontProcessor extends AbstractStorefrontPro
 
         $responseTransfer = $this->availabilityNotificationClient->subscribe($subscriptionTransfer);
 
-        if (!$responseTransfer->getIsSuccess()) {
+        if (!$responseTransfer->getIsSuccess() && !$this->isRepeatedSubscription($responseTransfer)) {
             throw $this->exceptionFactory->createSubscribeFailureException($responseTransfer);
         }
 
-        $createdSubscriptionTransfer = $responseTransfer->getAvailabilityNotificationSubscriptionOrFail();
+        return null;
+    }
 
-        $data->subscriptionKey = $createdSubscriptionTransfer->getSubscriptionKey();
-        $data->email = $createdSubscriptionTransfer->getEmail();
-        $data->sku = $createdSubscriptionTransfer->getSku();
-        $data->localeName = $createdSubscriptionTransfer->getLocale()?->getLocaleName();
-
-        return $data;
+    protected function isRepeatedSubscription(AvailabilityNotificationSubscriptionResponseTransfer $responseTransfer): bool
+    {
+        return $responseTransfer->getErrorMessage() === AvailabilityNotificationsRestApiConfig::RESPONSE_DETAIL_SUBSCRIPTION_ALREADY_EXISTS;
     }
 
     /**
