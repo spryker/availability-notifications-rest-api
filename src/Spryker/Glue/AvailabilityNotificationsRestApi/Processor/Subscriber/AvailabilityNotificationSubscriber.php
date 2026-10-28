@@ -7,13 +7,16 @@
 
 namespace Spryker\Glue\AvailabilityNotificationsRestApi\Processor\Subscriber;
 
+use Generated\Shared\Transfer\AvailabilityNotificationSubscriptionResponseTransfer;
 use Generated\Shared\Transfer\AvailabilityNotificationSubscriptionTransfer;
 use Generated\Shared\Transfer\LocaleTransfer;
+use Spryker\Glue\AvailabilityNotificationsRestApi\AvailabilityNotificationsRestApiConfig;
 use Spryker\Glue\AvailabilityNotificationsRestApi\Dependency\Client\AvailabilityNotificationsRestApiToAvailabilityNotificationClientInterface;
 use Spryker\Glue\AvailabilityNotificationsRestApi\Dependency\Client\AvailabilityNotificationsRestApiToStoreClientInterface;
 use Spryker\Glue\AvailabilityNotificationsRestApi\Processor\RestResponseBuilder\AvailabilityNotificationsRestResponseBuilderInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class AvailabilityNotificationSubscriber implements AvailabilityNotificationSubscriberInterface
 {
@@ -35,7 +38,8 @@ class AvailabilityNotificationSubscriber implements AvailabilityNotificationSubs
     public function __construct(
         AvailabilityNotificationsRestApiToAvailabilityNotificationClientInterface $availabilityNotificationClient,
         AvailabilityNotificationsRestApiToStoreClientInterface $storeClient,
-        AvailabilityNotificationsRestResponseBuilderInterface $availabilityNotificationsRestResponseBuilder
+        AvailabilityNotificationsRestResponseBuilderInterface $availabilityNotificationsRestResponseBuilder,
+        protected AvailabilityNotificationsRestApiConfig $availabilityNotificationsRestApiConfig
     ) {
         $this->availabilityNotificationClient = $availabilityNotificationClient;
         $this->storeClient = $storeClient;
@@ -72,11 +76,33 @@ class AvailabilityNotificationSubscriber implements AvailabilityNotificationSubs
 
         $availabilityNotificationSubscriptionResponseTransfer = $this->availabilityNotificationClient->subscribe($availabilityNotificationSubscriptionTransfer);
 
+        if ($this->availabilityNotificationsRestApiConfig->isSubscriptionResponseWithoutKeyEnabled()) {
+            return $this->createSubscriptionResponseWithoutKey($availabilityNotificationSubscriptionResponseTransfer);
+        }
+
         if (!$availabilityNotificationSubscriptionResponseTransfer->getIsSuccess()) {
             return $this->availabilityNotificationsRestResponseBuilder->createSubscribeErrorResponse($availabilityNotificationSubscriptionResponseTransfer);
         }
 
         return $this->availabilityNotificationsRestResponseBuilder->createAvailabilityNotificationResponse($availabilityNotificationSubscriptionResponseTransfer->getAvailabilityNotificationSubscriptionOrFail());
+    }
+
+    protected function createSubscriptionResponseWithoutKey(
+        AvailabilityNotificationSubscriptionResponseTransfer $availabilityNotificationSubscriptionResponseTransfer
+    ): RestResponseInterface {
+        // A repeated subscription answers like a new one, so the unauthenticated endpoint does not reveal who is subscribed.
+        if (!$availabilityNotificationSubscriptionResponseTransfer->getIsSuccess() && !$this->isRepeatedSubscription($availabilityNotificationSubscriptionResponseTransfer)) {
+            return $this->availabilityNotificationsRestResponseBuilder->createSubscribeErrorResponse($availabilityNotificationSubscriptionResponseTransfer);
+        }
+
+        return $this->availabilityNotificationsRestResponseBuilder->createEmptyResponse()
+            ->setStatus(Response::HTTP_ACCEPTED);
+    }
+
+    protected function isRepeatedSubscription(
+        AvailabilityNotificationSubscriptionResponseTransfer $availabilityNotificationSubscriptionResponseTransfer
+    ): bool {
+        return $availabilityNotificationSubscriptionResponseTransfer->getErrorMessage() === AvailabilityNotificationsRestApiConfig::RESPONSE_DETAIL_SUBSCRIPTION_ALREADY_EXISTS;
     }
 
     public function unsubscribeBySubscriptionKey(RestRequestInterface $restRequest): RestResponseInterface

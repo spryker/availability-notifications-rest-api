@@ -125,6 +125,19 @@ class AvailabilityNotificationsRestApiConfig extends AbstractBundleConfig
     public const RESPONSE_DETAILS_CUSTOMER_UNAUTHORIZED = 'Unauthorized request.';
 
     /**
+     * Specification:
+     * - Returns `true` to answer every `POST /availability-notifications`, new or repeated, with `202 Accepted` and an empty document.
+     * - The answer then reveals neither whether the email is already subscribed nor the subscription key; the key goes out only in the confirmation email.
+     * - Returns `false` to keep `201 Created` with the subscription resource, and `422` with code `4602` for a repeated subscription.
+     *
+     * @api
+     */
+    public function isSubscriptionResponseWithoutKeyEnabled(): bool
+    {
+        return false;
+    }
+
+    /**
      * @api
      *
      * @return array<string, array<string, mixed>>

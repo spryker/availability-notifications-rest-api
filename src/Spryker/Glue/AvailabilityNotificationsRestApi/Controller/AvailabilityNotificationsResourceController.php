@@ -27,6 +27,7 @@ class AvailabilityNotificationsResourceController extends AbstractController
      *          }],
      *          "responseAttributesClassName": "Generated\\Shared\\Transfer\\RestAvailabilityNotificationsAttributesTransfer",
      *          "responses": {
+     *              "202": "Subscription accepted with an empty document, new or repeated, when the project enables it; the confirmation email carries the subscription key.",
      *              "404": "Product not found.",
      *              "422": "Unprocessable entity."
      *          }
