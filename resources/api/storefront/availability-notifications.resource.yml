@@ -63,6 +63,9 @@ resource:
               customerReference:
                   identifiers: [customerReference]
           security: "is_granted('ROLE_CUSTOMER') and is_granted('CUSTOMER_OWNER')"
+          extraProperties:
+              securityOwnership:
+                  ownerUriVariable: customerReference
           description: 'Retrieve availability notification subscriptions for a customer'
           openapiContext:
               summary: 'List customer availability notification subscriptions'
